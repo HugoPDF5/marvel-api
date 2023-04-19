@@ -8,8 +8,8 @@ export const theme = extendTheme({
     "black": '#000000'
   },
   fonts: {
-    body: "Comic Sans MS', sans-serif",
-    heading: "Comic Sans MS', sans-serif"
+    body: "'Comic Sans MS', 'sans-serif'",
+    heading: "'Comic Sans MS', 'sans-serif'"
   },
 
   styles: {

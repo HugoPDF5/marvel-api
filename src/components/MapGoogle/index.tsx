@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Box, FormControl, FormLabel, Input } from '@chakra-ui/react';
+import { Alert, AlertIcon, Box, Button, Center, FormControl, FormLabel, Input, Spinner } from '@chakra-ui/react';
 
 interface MapGoogleProps { }
 
@@ -10,6 +10,8 @@ interface SelectedPlace {
 const MapGoogle: React.FC<MapGoogleProps> = () => {
   const [map, setMap] = useState<google.maps.Map | null>(null);
   const [selectedPlace, setSelectedPlace] = useState<SelectedPlace | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isSent, setIsSent] = useState<boolean>(false);
 
   useEffect(() => {
     const mapElement = document.getElementById('map');
@@ -22,23 +24,38 @@ const MapGoogle: React.FC<MapGoogleProps> = () => {
     document.body.appendChild(script);
 
     window.initMap = () => {
-      const mapOptions: google.maps.MapOptions = {
-        center: { lat: -23.5489, lng: -46.6388 },
-        zoom: 15,
-        disableDefaultUI: true,
-      };
-
       if (navigator.geolocation) {
         navigator.geolocation.getCurrentPosition((position) => {
-          mapOptions.center = { lat: position.coords.latitude, lng: position.coords.longitude };
+          const userLatLng = { lat: position.coords.latitude, lng: position.coords.longitude };
+          const mapOptions: google.maps.MapOptions = {
+            center: userLatLng,
+            zoom: 16,
+            disableDefaultUI: true,
+          };
+          const newMap = new window.google.maps.Map(mapElement, mapOptions)
+          newMap.addListener('click', handleMapClick);
+          setMap(newMap);
         });
+      } else {
+        const mapOptions: google.maps.MapOptions = {
+          center: { lat: -23.5489, lng: -46.6388 },
+          zoom: 16,
+          disableDefaultUI: true,
+        };
+        const newMap = new window.google.maps.Map(mapElement, mapOptions);
+        newMap.addListener('click', handleMapClick);
+        setMap(newMap);
       }
-
-      const newMap = new window.google.maps.Map(mapElement, mapOptions);
-      newMap.addListener('click', handleMapClick);
-      setMap(newMap);
     };
   }, []);
+
+  function handleClick() {
+    setIsLoading(true);
+    setTimeout(() => {
+      setIsLoading(false);
+      setIsSent(true);
+    }, 2000);
+  }
 
   const handleMapClick = (event: google.maps.MouseEvent): void => {
     const { latLng } = event;
@@ -50,20 +67,45 @@ const MapGoogle: React.FC<MapGoogleProps> = () => {
           formatted_address: place.formatted_address!,
         });
       } else {
-        console.log(`Geocoder falhou com status ${status}`);
+        console.log(`Geocoder failed with status ${status}`);
       }
     });
   };
 
   return (
     <>
-      <Box id="map" h="300px" w="100%" />
+      <Box mb={4} id="map" h="300px" w="100%" />
       {selectedPlace && (
         <FormControl id="formatted-address">
-          <FormLabel>Endereço</FormLabel>
+          <FormLabel>Address</FormLabel>
           <Input type="text" value={selectedPlace.formatted_address} isReadOnly />
         </FormControl>
       )}
+      <Center mt={8}>
+        {isSent ? (
+          <Alert status="success">
+            <AlertIcon />
+            The products will reach you as soon as possible!
+          </Alert>
+        ) : (
+          <Button
+            onClick={handleClick}
+            color="white"
+            variant="solid"
+            background="red"
+            size="lg"
+            _hover={{ color: "red", background: "white" }}
+          >
+            {isLoading ? (
+              <Center>
+                <Spinner thickness="4px" speed="0.4s" emptyColor="yellow" color="white" size="xl" />
+              </Center>
+            ) : (
+              "Send to your address"
+            )}
+          </Button>
+        )}
+      </Center>
     </>
   );
 };

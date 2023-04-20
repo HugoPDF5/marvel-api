@@ -57,7 +57,7 @@ const GridCards = () => {
 
     return (
         <Box maxW="1200px" mx="auto" py={6}>
-            <Heading as="h2" size="lg" mb={6} mt={6}>
+            <Heading color='white' as="h2" size="lg" mb={6} mt={6}>
             Comics List
             </Heading>
             {isLoading ? (
@@ -65,8 +65,8 @@ const GridCards = () => {
                     <Spinner
                         thickness='4px'
                         speed='0.2s'
-                        emptyColor='red'
-                        color='blue.500'
+                        emptyColor='yellow'
+                        color='white'
                         size='xl'
                     />
                 </Center>
@@ -74,13 +74,13 @@ const GridCards = () => {
                 <>
                     <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
                         {comics.map((comic: comicProps, index: number) => (
-                            <GridItem onClick={() => { setComicSelected(comic) }} key={index} _hover={{ cursor: 'pointer' }} bg="white" borderRadius="md" boxShadow="md" overflow="hidden">
+                            <GridItem onClick={() => { setComicSelected(comic) }} key={index} bg="white" borderRadius="md" boxShadow="md" overflow="hidden">
                                 <Image src={comic.thumbnail.path + '/detail.' + comic.thumbnail.extension} alt={comic.title} w="full" h={300} objectFit="cover" />
                                 <Box p={4}>
                                     <Heading as="h3" size="md" mb={2} isTruncated>{comic.title}</Heading>
                                     <Heading as="h4" size="sm" mb={2}>{comic.prices.map(item => item.price)}$</Heading>
-                                    <Box display="flex" justifyContent="space-between" mt={8}>
-                                        <Button onClick={onOpen} color="white" variant='solid' background="red" size="sm" _hover={{ color: 'red', background: "white" }}>Details</Button>
+                                    <Box display="flex" justifyContent={'flex-end'} gap={2} mt={8}>
+                                        <Button onClick={onOpen} color="white" variant='solid' background="gray" size="sm" _hover={{ color: 'black', background: "white" }}>Details</Button>
                                         <Button onClick={() => {
                                             handleAddToCart(comic)
                                             toast({
@@ -90,7 +90,7 @@ const GridCards = () => {
                                                 isClosable: true,
                                             })
                                         }}
-                                            color="white" variant='solid' background="yellow" size="sm" _hover={{ color: 'red', background: "white" }}>Add to Cart</Button>
+                                            color="white" variant='solid' background="red" size="sm" _hover={{ color: 'red', background: "white" }}>Add to Cart</Button>
                                     </Box>
                                 </Box>
                             </GridItem >
@@ -111,8 +111,8 @@ const GridCards = () => {
                             <VStack gap={4}>
                                 <Text>Name: {comicSelected.title}</Text>
                                 <Text>Description: {comicSelected.description ? comicSelected.description : 'No informations'}</Text>
-                                <Text>Price: {comicSelected.prices.map(item => item.price)}$</Text>
                                 <Text>Creator(s): {comicSelected.creators.items.length > 1 ? comicSelected.creators.items.map(item => item.name).join(', ') : 'No informations'}</Text>
+                                <Text>Price: {comicSelected.prices.map(item => item.price)}$</Text>
                             </VStack>
                         </Flex>
                     </ModalBody>

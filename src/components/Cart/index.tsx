@@ -1,5 +1,6 @@
 import { Box, Button, Flex, Heading, IconButton, Image, Text, useColorModeValue, useToast } from "@chakra-ui/react";
 import { AiOutlineClose } from "react-icons/ai";
+import { BiTrash } from "react-icons/bi";
 import { comicProps } from "../../types/comics";
 import { CartItemProps, CartProps } from "../../types/cart";
 
@@ -48,8 +49,14 @@ const Cart = ({ items, totalValue, onClear, onRemoveItem }: CartProps) => {
     >
       <Flex align="center" justify="space-between" p={4} borderBottomWidth={1}>
         <Heading fontSize="lg">Item</Heading>
-        <Button variant="ghost" onClick={onClear}>
-          Clear
+        <Button variant="ghost" onClick={onClear} border='1px solid black' _hover={{background: 'red', color: 'white', borderColor: 'red'}}>
+          <IconButton
+            variant="ghost"
+            colorScheme="red"
+            aria-label="Remove item"
+            icon={ <BiTrash size={'20px'} />}
+            size={'lg'}
+          />
         </Button>
       </Flex>
       <Box p={4}>

@@ -1,4 +1,4 @@
-import { Button, HStack } from '@chakra-ui/react';
+import { Button, Center, HStack } from '@chakra-ui/react';
 
 type PaginationProps = {
   currentPage: number;
@@ -32,15 +32,17 @@ const Pagination = ({ currentPage, totalPages, onPageChange }: PaginationProps) 
   const visiblePages = getVisiblePages();
 
   return (
-    <HStack spacing={4} mt={8}>
-      <Button onClick={() => onPageChange(1)} isDisabled={isFirstPage} variant="outline">Primeira</Button>
-      <Button onClick={() => onPageChange(previousPage)} isDisabled={isFirstPage} variant="outline">Anterior</Button>
-      {visiblePages.map((page) => (
-        <Button key={page} onClick={() => onPageChange(page)} variant={page === currentPage ? "solid" : "outline"}>{page}</Button>
-      ))}
-      <Button onClick={() => onPageChange(nextPage)} isDisabled={isLastPage} variant="outline">Próxima</Button>
-      <Button onClick={() => onPageChange(totalPages)} isDisabled={isLastPage} variant="outline">Última</Button>
-    </HStack>
+    <Center>
+      <HStack spacing={4} mt={8} color="yellow">
+        <Button onClick={() => onPageChange(1)} isDisabled={isFirstPage} background={'gray'} variant="outline">First</Button>
+        <Button onClick={() => onPageChange(previousPage)} isDisabled={isFirstPage} background={'gray'} variant="outline">Previous</Button>
+        {visiblePages.map((page) => (
+          <Button key={page} onClick={() => onPageChange(page)} background={'gray'} variant={page === currentPage ? "solid" : "outline"}>{page}</Button>
+        ))}
+        <Button onClick={() => onPageChange(nextPage)} background={'gray'} isDisabled={isLastPage} variant="outline">Next</Button>
+        <Button onClick={() => onPageChange(totalPages)} background={'gray'} isDisabled={isLastPage} variant="outline">Last</Button>
+      </HStack>
+    </Center>
   );
 };
 

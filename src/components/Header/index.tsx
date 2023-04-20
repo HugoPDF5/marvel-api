@@ -4,6 +4,7 @@ import Cart from '../Cart';
 import { useContext } from 'react';
 import { CartContext } from '../../contexts/cart';
 import MapGoogle from '../MapGoogle';
+import { motion } from "framer-motion";
 
 const Header = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -11,7 +12,7 @@ const Header = () => {
     const { cart, removeFromCart, clearCart, totalValue, totalItems } = useContext(CartContext);
 
     return (
-        <Box bg="red" py={2}>
+        <Box bg="gray" py={2}>
             <Flex maxW="1200px" mx="auto" align="center">
                 <Image src="./assets/marvel.svg" alt="Marvel Logo" w={120} />
                 <Spacer />
@@ -26,7 +27,7 @@ const Header = () => {
                     <Box
                         position="absolute"
                         top="8px"
-                        right="340px"
+                        right="255px"
                         bg="white"
                         borderRadius="50%"
                         color="black"
@@ -42,11 +43,11 @@ const Header = () => {
                     <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
-                        <DrawerHeader>Carrinho de compras</DrawerHeader>
+                        <DrawerHeader>Cart</DrawerHeader>
                         <DrawerBody>
                             <Cart totalItems={totalItems} items={cart} onClear={clearCart} onRemoveItem={removeFromCart} totalValue={totalValue}></Cart>
                             <Center mt={8}>
-                                <Button onClick={onOpenModal} color="white" variant='solid' background="red" size="lg" _hover={{ color: 'red', background: "white" }}>Comprar</Button>
+                                <Button isDisabled={totalItems === 0} onClick={onOpenModal} color="white" variant='solid' background="red" size="lg" _hover={{ color: 'red', background: "white" }}>Buy</Button>
                             </Center>
                         </DrawerBody>
                     </DrawerContent>
@@ -56,13 +57,10 @@ const Header = () => {
             <Modal size={'4xl'} isOpen={isOpenModal} onClose={onCloseModal}>
                 <ModalOverlay />
                 <ModalContent>
-                    <ModalHeader>Selecione seu endereço</ModalHeader>
+                    <ModalHeader>Select your address</ModalHeader>
                     <ModalCloseButton />
                     <ModalBody>
-                        <MapGoogle isOpen={isOpenModal} onClose={onCloseModal} />
-                        <Center mt={8}>
-                            <Button onClick={onOpenModal} color="white" variant='solid' background="red" size="lg" _hover={{ color: 'red', background: "white" }}>Enviar para esse endereço</Button>
-                        </Center>
+                        <MapGoogle onClose={onCloseModal} />
                     </ModalBody>
                 </ModalContent>
             </Modal>

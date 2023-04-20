@@ -1,30 +1,36 @@
-import React, { createContext, useState } from 'react';
+import React, { ReactNode, createContext, useState } from 'react';
+import { comicProps } from '../types/comics';
+interface ChildrenProps {
+  children: ReactNode;
+}
 
 export const CartContext = createContext<any>({});
 
-export const CartProvider: React.FC = ({ children }) => {
-  const [cart, setCart] = useState([]);
+export const CartProvider: React.FC = ({ children }: ChildrenProps) => {
+  const [cart, setCart] = useState<comicProps[]>([]);
 
-  const addToCart = (item: any) => {
+  const addToCart = (item: comicProps) => {
     setCart([...cart, item]);
   };
 
-  const removeFromCart = (itemId: string) => {
-    setCart(cart.filter((item: any) => item.id !== itemId));
+  const removeFromCart = (itemId: number) => {
+    setCart(cart.filter((item: comicProps) => item.id !== itemId));
   };
 
   const clearCart = () => {
     setCart([]);
   };
 
-  const total = cart.map(item => item.prices).reduce((acc, curr) => {
+  const totalItems = cart.length;
+
+  const totalValue = cart.map((item: comicProps) => item.prices).reduce((acc, curr) => {
     return acc + curr.reduce((acc2, curr2) => {
-        return acc2 + curr2.price;
+      return acc2 + curr2.price;
     }, 0);
-}, 0);
+  }, 0);
 
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, total }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, clearCart, totalValue, totalItems }}>
       {children}
     </CartContext.Provider>
   );

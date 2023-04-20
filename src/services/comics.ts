@@ -1,4 +1,4 @@
-import { comicsProps } from "../types/comics";
+import { comicProps } from "../types/comics";
 import { api } from "./apiMarvel";
 import MD5 from "crypto-js/md5";
 
@@ -9,9 +9,10 @@ export function useComics() {
   const timestamp = new Date().getTime();
   const hash = MD5(timestamp + privateKey + publicKey).toString();
 
-  const getAllComics = async (limit?: number) => {
+  const getAllComics = async (limit?: number): Promise<comicProps[] | []> => {
     const url = `${baseUrl}?apikey=${publicKey}&ts=${timestamp}&hash=${hash}${limit ? `&limit=${limit}` : ""}`;
     const { data } = await api.get(url);
+    console.log(data);
     return data.data.results;
   };
 

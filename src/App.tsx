@@ -1,4 +1,4 @@
-import Card from './components/Card'
+import GridCards from './components/GridCards'
 import Header from './components/Header'
 
 function App() {
@@ -6,7 +6,7 @@ function App() {
   return (
     <>
       <Header />
-      <Card />
+      <GridCards />
     </>
   )
 }

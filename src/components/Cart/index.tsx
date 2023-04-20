@@ -1,15 +1,16 @@
-import { Box, Button, Flex, Heading, IconButton, Image, Text, useColorModeValue } from "@chakra-ui/react";
-import { useContext } from "react";
+import { Box, Button, Flex, Heading, IconButton, Image, Text, useColorModeValue, useToast } from "@chakra-ui/react";
 import { AiOutlineClose } from "react-icons/ai";
-import { CartContext } from "../../contexts/cart";
+import { comicProps } from "../../types/comics";
+import { CartItemProps, CartProps } from "../../types/cart";
 
-const CartItem = ({ image, name, price, quantity = 1, onRemove }) => {
+
+const CartItem = ({ image, name, price, quantity, onRemove }: CartItemProps) => {
   const textColor = useColorModeValue("gray.700", "gray.300");
 
   return (
     <Flex alignItems="center" mb={4}>
       <Box mr={4}>
-        <Image src={image} alt={name} w={16} h={16}  />
+        <Image src={image} alt={name} w={16} h={16} />
       </Box>
       <Box flexGrow={1}>
         <Text fontSize="md" fontWeight="bold" color={textColor}>
@@ -32,8 +33,9 @@ const CartItem = ({ image, name, price, quantity = 1, onRemove }) => {
   );
 };
 
-const Cart = ({ items, total, onClear, onRemoveItem }) => {
+const Cart = ({ items, totalValue, onClear, onRemoveItem }: CartProps) => {
   const bgColor = useColorModeValue("white", "gray.800");
+  const toast = useToast()
 
   return (
     <Box
@@ -51,14 +53,22 @@ const Cart = ({ items, total, onClear, onRemoveItem }) => {
         </Button>
       </Flex>
       <Box p={4}>
-        {items.map((item) => (
+        {items.map((item: comicProps) => (
           <CartItem
             key={item.id}
             image={item.thumbnail.path + '/detail.' + item.thumbnail.extension}
             name={item.title}
             price={item.prices.map(item => item.price)}
-            quantity={item.quantity}
-            onRemove={() => onRemoveItem(item.id)}
+            quantity={1}
+            onRemove={() => {
+              onRemoveItem(item.id)
+              toast({
+                title: 'Product removed from cart.',
+                status: 'warning',
+                duration: 2000,
+                isClosable: true,
+              })
+            }}
           />
         ))}
         <Flex justify="space-between" mt={4}>
@@ -66,7 +76,7 @@ const Cart = ({ items, total, onClear, onRemoveItem }) => {
             Total:
           </Text>
           <Text fontSize="xl" fontWeight="bold" color={useColorModeValue("gray.700", "gray.300")}>
-            ${total}
+            ${totalValue}
           </Text>
         </Flex>
       </Box>

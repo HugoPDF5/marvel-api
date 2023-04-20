@@ -26,3 +26,5 @@ $ npm install
 - [Axios](https://github.com/axios/axios)
 - [Chakra UI](https://chakra-ui.com/)
 - [Framer Motion](https://www.framer.com/)
+- [Google Maps API](https://cloud.google.com/apis/docs/overview)
+- [Marvel API](https://developer.marvel.com/docs)

@@ -4,7 +4,6 @@ import Cart from '../Cart';
 import { useContext } from 'react';
 import { CartContext } from '../../contexts/cart';
 import MapGoogle from '../MapGoogle';
-import { motion } from "framer-motion";
 
 const Header = () => {
     const { isOpen, onOpen, onClose } = useDisclosure();
@@ -14,7 +13,7 @@ const Header = () => {
     return (
         <Box bg="gray" py={2}>
             <Flex maxW="1200px" mx="auto" align="center">
-                <Image src="./assets/marvel.svg" alt="Marvel Logo" w={120} />
+                <Image src="./assets/marvel.svg" alt="Marvel Logo" w={{ base: 40, sm: 120 }} />
                 <Spacer />
                 <IconButton
                     variant="ghost"
@@ -27,7 +26,7 @@ const Header = () => {
                     <Box
                         position="absolute"
                         top="8px"
-                        right="255px"
+                        right={{ base: '25px', md: '255px', lg: '255px' }}
                         bg="white"
                         borderRadius="50%"
                         color="black"
@@ -39,7 +38,7 @@ const Header = () => {
                         {totalItems}
                     </Box>
                 )}
-                <Drawer size={'md'} placement="right" onClose={onClose} isOpen={isOpen}>
+                <Drawer size={{ base: 'xs', sm: 'md' }} placement="right" onClose={onClose} isOpen={isOpen}>
                     <DrawerOverlay />
                     <DrawerContent>
                         <DrawerCloseButton />
@@ -54,7 +53,7 @@ const Header = () => {
                 </Drawer>
             </Flex>
 
-            <Modal size={'4xl'} isOpen={isOpenModal} onClose={onCloseModal}>
+            <Modal size={{ base: 'xs', sm: '4xl' }} isOpen={isOpenModal} onClose={onCloseModal}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader>Select your address</ModalHeader>
@@ -66,7 +65,6 @@ const Header = () => {
             </Modal>
         </Box>
     );
-
 }
 
 export default Header

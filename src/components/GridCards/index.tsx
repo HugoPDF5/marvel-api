@@ -58,46 +58,71 @@ const GridCards = () => {
     return (
         <Box maxW="1200px" mx="auto" py={6}>
             <Heading color='white' as="h2" size="lg" mb={6} mt={6}>
-            Comics List
+                Comics List
             </Heading>
-            {isLoading ? (
-                <Center>
-                    <Spinner
-                        thickness='4px'
-                        speed='0.2s'
-                        emptyColor='yellow'
-                        color='white'
-                        size='xl'
-                    />
-                </Center>
-            ) : (
-                <>
-                    <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+            <Grid templateColumns={{ base: "repeat(1, 1fr)", md: "repeat(2, 1fr)", lg: "repeat(3, 1fr)" }} gap={6}>
+                {isLoading ? (
+                    <Center>
+                        <Spinner thickness="4px" speed="0.2s" emptyColor="yellow" color="white" size="xl" />
+                    </Center>
+                ) : (
+                    <>
                         {comics.map((comic: comicProps, index: number) => (
-                            <GridItem onClick={() => { setComicSelected(comic) }} key={index} bg="white" borderRadius="md" boxShadow="md" overflow="hidden">
-                                <Image src={comic.thumbnail.path + '/detail.' + comic.thumbnail.extension} alt={comic.title} w="full" h={300} objectFit="cover" />
+                            <Box
+                                key={index}
+                                bg="white"
+                                borderRadius="md"
+                                boxShadow="md"
+                                overflow="hidden"
+                                onClick={() => {
+                                    setComicSelected(comic);
+                                }}
+                                cursor="pointer"
+                            >
+                                <Image src={comic.thumbnail.path + "/detail." + comic.thumbnail.extension} alt={comic.title} w="full" h={300} objectFit="cover" />
                                 <Box p={4}>
-                                    <Heading as="h3" size="md" mb={2} isTruncated>{comic.title}</Heading>
-                                    <Heading as="h4" size="sm" mb={2}>{comic.prices.map(item => item.price)}$</Heading>
-                                    <Box display="flex" justifyContent={'flex-end'} gap={2} mt={8}>
-                                        <Button onClick={onOpen} color="white" variant='solid' background="gray" size="sm" _hover={{ color: 'black', background: "white" }}>Details</Button>
-                                        <Button onClick={() => {
-                                            handleAddToCart(comic)
-                                            toast({
-                                                title: 'Product added to cart.',
-                                                status: 'success',
-                                                duration: 3000,
-                                                isClosable: true,
-                                            })
-                                        }}
-                                            color="white" variant='solid' background="red" size="sm" _hover={{ color: 'red', background: "white" }}>Add to Cart</Button>
-                                    </Box>
+                                    <Heading as="h3" size="md" mb={2} isTruncated>
+                                        {comic.title}
+                                    </Heading>
+                                    <Heading as="h4" size="sm" mb={2}>
+                                        {comic.prices.map((item) => item.price)}$
+                                    </Heading>
+                                    <Flex justifyContent="flex-end" gap={2}>
+                                        <Button
+                                            onClick={onOpen}
+                                            color="white"
+                                            variant="solid"
+                                            background="gray"
+                                            size="sm"
+                                            _hover={{ color: "black", background: "white" }}
+                                        >
+                                            Details
+                                        </Button>
+                                        <Button
+                                            onClick={() => {
+                                                handleAddToCart(comic);
+                                                toast({
+                                                    title: "Product added to cart.",
+                                                    status: "success",
+                                                    duration: 3000,
+                                                    isClosable: true,
+                                                });
+                                            }}
+                                            color="white"
+                                            variant="solid"
+                                            background="red"
+                                            size="sm"
+                                            _hover={{ color: "red", background: "white" }}
+                                        >
+                                            Add to Cart
+                                        </Button>
+                                    </Flex>
                                 </Box>
-                            </GridItem >
+                            </Box>
                         ))}
-                    </Grid >
-                </>
-            )}
+                    </>
+                )}
+            </Grid>
             <Pagination currentPage={currentPage} onPageChange={handlePageChange} totalPages={totalPages} />
 
             <Modal size={'3xl'} isOpen={isOpen} onClose={onClose}>

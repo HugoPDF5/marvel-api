@@ -49,12 +49,12 @@ const Cart = ({ items, totalValue, onClear, onRemoveItem }: CartProps) => {
     >
       <Flex align="center" justify="space-between" p={4} borderBottomWidth={1}>
         <Heading fontSize="lg">Item</Heading>
-        <Button variant="ghost" onClick={onClear} border='1px solid black' _hover={{background: 'red', color: 'white', borderColor: 'red'}}>
+        <Button variant="ghost" onClick={onClear} border='1px solid black' _hover={{ background: 'red', color: 'white', borderColor: 'red' }}>
           <IconButton
             variant="ghost"
             colorScheme="red"
             aria-label="Remove item"
-            icon={ <BiTrash size={'20px'} />}
+            icon={<BiTrash size={'20px'} />}
             size={'lg'}
           />
         </Button>
@@ -79,11 +79,11 @@ const Cart = ({ items, totalValue, onClear, onRemoveItem }: CartProps) => {
           />
         ))}
         <Flex justify="space-between" mt={4}>
-          <Text fontSize="xl" fontWeight="bold" color={useColorModeValue("gray.700", "gray.300")}>
+          <Text fontSize="xl" fontWeight="bold">
             Total:
           </Text>
-          <Text fontSize="xl" fontWeight="bold" color={useColorModeValue("gray.700", "gray.300")}>
-            ${totalValue}
+          <Text fontSize="xl" fontWeight="bold">
+            ${totalValue.toFixed(2)}
           </Text>
         </Flex>
       </Box>
